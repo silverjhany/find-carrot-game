@@ -18,7 +18,6 @@ function setCarrot() {
     const num = 10;
     for(let i = 1; i <= num; i++) {
         const position = getRandomPosition();
-        console.log(position);
         
         const positionX = position.randomX;
         const positionY = position.randomY;
