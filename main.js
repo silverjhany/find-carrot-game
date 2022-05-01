@@ -69,7 +69,6 @@ function getRandomPosition() {
     const randomX = Math.floor(Math.random() * (xMax - xMin)) + xMin;
     const randomY = Math.floor(Math.random() * (yMax - yMin)) + yMin;
 
-    //console.log(`x : ${randomX}, y : ${randomY}`);
 
     return {randomX, randomY};
 }
