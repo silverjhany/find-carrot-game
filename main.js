@@ -9,12 +9,15 @@ const fieldWidth = game_field.getBoundingClientRect().width;
 const fieldHeight = game_field.getBoundingClientRect().height;
 const resultBox = document.querySelector('.result_box');
 const replayBtn = document.querySelector('.replay_btn');
+const playAudio = new Audio('/sound/bg.mp3');
 
 function gameStart() {
     let seconds = 10;
     let secondsTxt;
     timer.innerHTML = '0:10';
     score.innerHTML = '10';
+    // 배경음 시작
+    startAudio();
 
     GAMETIMER = setInterval(function() {
         
@@ -23,8 +26,8 @@ function gameStart() {
             clearInterval(GAMETIMER);
             resultBox.style.display = 'block';
             resultBox.lastElementChild.innerHTML = 'TIME OVER OTL...';
+            playAudio.pause();
         }
-        
         
         --seconds;
 
@@ -58,11 +61,19 @@ function setCarrot() {
 
             let clickScore = Number(score.innerHTML);
             score.innerHTML = --clickScore;
+
+            const carrotAudio = new Audio('/sound/carrot_pull.mp3');
+            carrotAudio.play();
+
             if(clickScore === 0) {
                 clearInterval(GAMETIMER);
                 
                 resultBox.style.display = 'block';
                 resultBox.lastElementChild.innerHTML = 'YOU WON ~!';
+                
+                const winAudio = new Audio('/sound/game_win.mp3');
+                winAudio.play();
+                endAudio();
             }
         });
 
@@ -94,6 +105,9 @@ function setBug() {
             clearInterval(GAMETIMER);
             resultBox.style.display = 'block';
             resultBox.lastElementChild.innerHTML = 'OMG YOU LOOSE...';
+            const bugAudio = new Audio('/sound/bug_pull.mp3');
+            bugAudio.play();
+            endAudio();
         });
 
         game_field.append(bug);
@@ -113,13 +127,28 @@ function getRandomPosition() {
     return {randomX, randomY};
 }
 
-start.addEventListener('click', (e) => { 
+function startAudio() {
+    playAudio.play();
+}
+
+function endAudio() {
+    playAudio.pause();
+    playAudio.currentTime = 0;
+}
+
+function gameInit() {
     game_field.innerHTML = '';
     setCarrot();
     setBug();
     gameStart();
+}
+
+start.addEventListener('click', (e) => { 
+    gameInit();
 });
 
 replayBtn.addEventListener('click', (e) => {
-    console.log("ektlgdsf");
+    gameInit();
+    resultBox.style.display = 'none';
 });
+
